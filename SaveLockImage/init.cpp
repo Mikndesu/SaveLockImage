@@ -1,16 +1,25 @@
+// to use std::getenv()
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "headers/Init.h"
 #include <iostream>
 #include <regex>
 #include <memory>
+#include <cstdlib>
+#include <string>
 
-std::string WALLPAPER_PATH = "C:\\Users\\minio\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets";
-std::string LIST_PATH = "C:\\Users\\minio\\AppData\\Local\\SaveLockImage";
-std::string OUTPUT_PATH = "C:\\Users\\minio\\SaveLockImage\\";
+std::string const LOCALAPP = std::string(std::getenv("LOCALAPPDATA"));
+std::string const HOME = std::string(std::getenv("USERPROFILE"));
+
+std::string WALLPAPER_PATH = LOCALAPP + "\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets";
+std::string LIST_PATH = LOCALAPP + "\\SaveLockImage\\";
+std::string OUTPUT_PATH = HOME + "\\SaveLockImage\\";
 
 namespace {
 	template<typename T>
 	void save_image(T t) {
 		auto size = std::filesystem::file_size(t);
+		// 300000byte -> 300kb
 		if (size <= 300000) {
 			return;
 		}
